@@ -242,7 +242,7 @@ button { font-family: inherit; cursor: pointer; }
 }
 .hero-video {
   position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: center 35%;
-  pointer-events: none; z-index: 0; opacity: .18;
+  pointer-events: none; z-index: 0; opacity: .26;
   mask-image: linear-gradient(#000 0%, #000 30%, transparent 62%);
   -webkit-mask-image: linear-gradient(#000 0%, #000 30%, transparent 62%);
 }
@@ -333,6 +333,27 @@ button { font-family: inherit; cursor: pointer; }
 /* ---------- B 全廠剖視圖 ---------- */
 .diagram { position: relative; background: transparent; aspect-ratio: 1731 / 909; overflow: hidden; }
 .diagram img { width: 100%; height: 100%; object-fit: contain; display: block; }
+.diagram-video {
+  position: absolute; inset: 0; width: 100%; height: 100%; object-fit: contain; background: #fff;
+  display: none; z-index: 5;
+}
+.diagram.playing .diagram-video { display: block; }
+.diagram.playing .hs { visibility: hidden; }
+.diagram.playing > picture { visibility: hidden; }
+.diagram-play {
+  position: absolute; right: 16px; bottom: 16px; z-index: 6;
+  display: inline-flex; align-items: center; gap: 8px;
+  font-family: var(--font-mono); font-size: 12px; letter-spacing: .08em;
+  background: rgba(19,28,38,.86); color: #fff; border: 1px solid rgba(255,255,255,.25);
+  padding: 8px 14px 8px 12px; cursor: pointer; transition: background .2s;
+}
+.diagram-play::before {
+  content: ""; border-style: solid; border-width: 6px 0 6px 10px; border-color: transparent transparent transparent var(--oht);
+}
+.diagram-play:hover { background: var(--oht-deep); }
+.diagram-play:hover::before { border-left-color: #fff; }
+.diagram.playing .diagram-play::before { border: 0; width: 9px; height: 11px; border-left: 3px solid var(--oht); border-right: 3px solid var(--oht); }
+@media (max-width: 767px) { .diagram-play { right: 10px; bottom: 10px; font-size: 11px; padding: 7px 11px 7px 10px; } }
 .hs {
   position: absolute; transform: translate(-50%, -50%);
   display: flex; align-items: center; gap: 8px;
@@ -651,6 +672,20 @@ button { font-family: inherit; cursor: pointer; }
 /* 服務頁嵌入短片 */
 .page-video { position: relative; border: 1px solid var(--line); background: var(--deep); overflow: hidden; aspect-ratio: 16 / 9; }
 .page-video video { width: 100%; height: 100%; object-fit: cover; display: block; }
+.page-video { cursor: pointer; }
+.page-video .play {
+  position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%);
+  width: 64px; height: 64px; border-radius: 50%; border: 0;
+  background: rgba(19,28,38,.72); color: #fff; display: none; align-items: center; justify-content: center;
+  box-shadow: 0 0 0 1px rgba(255,255,255,.35), 0 8px 24px rgba(0,0,0,.3);
+  cursor: pointer; transition: background .2s, transform .2s;
+}
+.page-video .play::before {
+  content: ""; display: block; margin-left: 4px;
+  border-style: solid; border-width: 11px 0 11px 18px; border-color: transparent transparent transparent #fff;
+}
+.page-video .play:hover { background: var(--oht-deep); transform: translate(-50%, -50%) scale(1.06); }
+.page-video.is-paused .play { display: flex; }
 .page-video figcaption {
   position: absolute; left: 0; right: 0; bottom: 0;
   font-family: var(--font-mono); font-size: 11px; letter-spacing: .08em; color: #fff;

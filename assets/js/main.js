@@ -144,13 +144,46 @@
     });
   }
 
-  /* ---------- 背景／嵌入影片：減少動態或省流量模式時不自動播放 ---------- */
+  /* ---------- 背景／嵌入影片 ---------- */
   var saveData = navigator.connection && navigator.connection.saveData;
   if (reduceMotion || saveData) {
     Array.prototype.forEach.call(document.querySelectorAll("video[autoplay]"), function (v) {
       v.removeAttribute("autoplay"); v.pause();
       try { v.currentTime = 0; } catch (e) {}
     });
+  }
+  /* 嵌入影片：未播放時顯示播放鈕（autoplay 被瀏覽器阻擋、省電模式等），點擊切換播放 */
+  Array.prototype.forEach.call(document.querySelectorAll(".page-video"), function (fig) {
+    var v = fig.querySelector("video"); if (!v) return;
+    var btn = document.createElement("button");
+    btn.className = "play"; btn.type = "button"; btn.setAttribute("aria-label", "播放影片");
+    fig.appendChild(btn);
+    var sync = function () { fig.classList.toggle("is-paused", v.paused); };
+    v.addEventListener("play", sync); v.addEventListener("pause", sync); v.addEventListener("ended", sync);
+    fig.addEventListener("click", function () {
+      if (v.paused) { var p = v.play(); if (p && p.catch) p.catch(function () {}); }
+      else v.pause();
+    });
+    window.setTimeout(sync, 800);
+  });
+  /* 首頁剖視圖：播放 BIM 剖視動畫（VID-FAB-1），播畢回到互動熱點圖 */
+  var dgm = document.querySelector(".diagram");
+  var dv = dgm && dgm.querySelector(".diagram-video");
+  var dbtn = dgm && dgm.querySelector(".diagram-play");
+  if (dgm && dv && dbtn) {
+    var stop = function () {
+      dv.pause(); try { dv.currentTime = 0; } catch (e) {}
+      dgm.classList.remove("playing"); dbtn.querySelector("span").textContent = "播放剖視動畫";
+      dbtn.setAttribute("aria-pressed", "false");
+    };
+    dbtn.addEventListener("click", function (e) {
+      e.preventDefault(); e.stopPropagation();
+      if (dgm.classList.contains("playing")) { stop(); return; }
+      dgm.classList.add("playing"); dbtn.querySelector("span").textContent = "回到剖視圖";
+      dbtn.setAttribute("aria-pressed", "true");
+      var p = dv.play(); if (p && p.catch) p.catch(stop);
+    });
+    dv.addEventListener("ended", stop);
   }
 
   /* ---------- 年份 ---------- */
