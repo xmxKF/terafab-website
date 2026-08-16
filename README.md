@@ -24,6 +24,8 @@ python -m http.server 8000
 │   └── facility.html           廠務系統整合
 ├── assets/
 │   ├── css/style.css           全站樣式（設計語彙：工程圖紙）
+│   ├── css/fonts.css           自託管字型宣告（TC＋Latin）；fonts-sc.css 簡體字型（切換時載入）
+│   ├── fonts/                  woff2 字型分塊（Noto Sans TC/SC 可變字重、Saira、IBM Plex Mono）
 │   ├── js/main.js              導覽、動效、標高導覽軌、表單
 │   ├── js/lang.js              繁簡一鍵切換（繁體為內容源）
 │   ├── js/zh-map.js            繁→簡對照表（自動生成，勿手改）

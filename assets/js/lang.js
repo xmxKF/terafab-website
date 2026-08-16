@@ -38,8 +38,17 @@
     while ((n = tw.nextNode())) cb(n);
   }
 
+  function ensureScFont() {
+    if (document.getElementById("tf-font-sc")) return;
+    var base = document.querySelector('link[href$="assets/css/fonts.css"]');
+    var href = base ? base.getAttribute("href").replace("fonts.css", "fonts-sc.css") : "assets/css/fonts-sc.css";
+    var l = document.createElement("link"); l.id = "tf-font-sc"; l.rel = "stylesheet"; l.href = href;
+    document.head.appendChild(l);
+  }
+
   function apply(lang) {
     var toHans = lang === "hans";
+    if (toHans) ensureScFont();
 
     eachTextNode(function (n) {
       if (toHans) {

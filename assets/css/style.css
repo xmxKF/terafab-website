@@ -20,8 +20,8 @@
   --zone-env: #BFD4B2;  /* 環保回收 */
   --zone-aux: #C6C9D8;  /* 輔助支援區域 */
   --zone-str: #D2D6DA;  /* 結構 */
-  --font-body: "Noto Sans TC", "PingFang TC", "Microsoft JhengHei", sans-serif;
-  --font-body-sc: "Noto Sans SC", "PingFang SC", "Microsoft YaHei", sans-serif;
+  --font-body: "Noto Sans TC", "PingFang TC", "Microsoft JhengHei UI", "Microsoft JhengHei", "Noto Sans CJK TC", sans-serif;
+  --font-body-sc: "Noto Sans SC", "PingFang SC", "Microsoft YaHei UI", "Microsoft YaHei", "Noto Sans CJK SC", sans-serif;
   --font-num: "Saira", "Noto Sans TC", sans-serif;
   --font-mono: "IBM Plex Mono", "Courier New", monospace;
   --w: 1120px;
@@ -86,7 +86,7 @@ button { font-family: inherit; cursor: pointer; }
 }
 .nav.scrolled { box-shadow: 0 1px 0 var(--line), 0 8px 24px rgba(28, 39, 51, .06); }
 .nav-in {
-  max-width: var(--w); margin: 0 auto; padding: 0 24px;
+  max-width: var(--w); margin: 0 auto; padding: 1px 24px 0; /* 補償 1px 底線，使項目以 64px 視覺高度置中 */
   height: 100%; display: flex; align-items: center; justify-content: space-between; gap: 24px;
 }
 .brand { display: flex; align-items: center; gap: 10px; }
@@ -113,12 +113,12 @@ button { font-family: inherit; cursor: pointer; }
 .nav-links { display: flex; align-items: center; gap: 4px; }
 .nav-links > li { position: relative; }
 .nav-links > li > a, .nav-links > li > button {
-  display: block; padding: 8px 14px; font-size: 15px; color: var(--ink);
-  background: none; border: 0; line-height: 1.6;
+  display: inline-flex; align-items: center; height: 40px; padding: 0 14px; font-size: 15px; color: var(--ink);
+  background: none; border: 0; line-height: 1;
 }
 .nav-links > li > a:hover, .nav-links > li > button:hover { color: var(--oht-deep); }
 .nav-cta {
-  margin-left: 10px; border: 1px solid var(--ink); padding: 7px 18px !important;
+  margin-left: 10px; border: 1px solid var(--ink); padding: 0 18px !important; height: 36px !important;
   font-size: 14px !important; letter-spacing: .08em;
   transition: background .2s, color .2s;
 }
@@ -127,7 +127,7 @@ button { font-family: inherit; cursor: pointer; }
 .nav-links > li > .lang-btn {
   font-family: var(--font-mono); font-size: 13px; letter-spacing: .04em;
   border: 1px solid var(--line); background: none; color: var(--steel);
-  padding: 6px 12px; margin-left: 6px; width: auto;
+  padding: 0 12px; height: 34px; margin-left: 6px; width: auto;
   transition: border-color .2s, color .2s;
 }
 .nav-links > li > .lang-btn:hover { border-color: var(--oht-deep); color: var(--oht-deep); }
@@ -195,9 +195,12 @@ button { font-family: inherit; cursor: pointer; }
   }
   .nav-links.open { display: flex; }
   .nav-links > li > a, .nav-links > li > button {
+    display: flex; height: auto; line-height: 1.5;
     padding: 14px 4px; font-size: 17px; width: 100%; text-align: left;
     border-bottom: 1px solid var(--line-soft);
   }
+  .nav-links > li > .lang-btn { height: auto; }
+  .nav-links > li > .nav-cta { height: auto !important; }
   .dropdown-menu {
     position: static; min-width: 0; border: 0; box-shadow: none;
     opacity: 1; visibility: visible; transform: none; display: none;
@@ -361,8 +364,14 @@ button { font-family: inherit; cursor: pointer; }
 .oht-line .node { fill: var(--oht); opacity: 0; }
 .oht-line.drawn .track { animation: draw 2.2s ease forwards; }
 .oht-line.drawn .node { animation: fadein .6s ease 1.9s forwards; }
-.oht-veh { opacity: 0; }
-.oht-line.drawn .oht-veh { animation: fadein .6s ease 2.5s forwards; }
+/* OHT 載具：以 CSS motion path 取代 SMIL（SVG 使用者座標，隨 viewBox 縮放） */
+.oht-veh {
+  opacity: 0;
+  offset-path: path("M0,88 H400 Q420,88 420,68 V44 Q420,24 440,24 H880 Q900,24 900,44 V68 Q900,88 920,88 H1200");
+  offset-rotate: 0deg;
+}
+.oht-line.drawn .oht-veh { animation: fadein .6s ease 2.5s forwards, ohtrun 10s linear 2.6s infinite; }
+@keyframes ohtrun { from { offset-distance: 0%; } to { offset-distance: 100%; } }
 .oht-vehicle {
   width: 14px; height: 9px; background: var(--oht); position: absolute;
   offset-rotate: 0deg; opacity: 0;
