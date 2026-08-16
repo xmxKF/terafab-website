@@ -16,6 +16,7 @@ python -m http.server 8000
 ```
 ├── index.html                  首頁（剖視圖熱點、業務範圍、服務流程、聯絡）
 ├── en/                         英文版（index.html ＋ services/ 六頁，與中文結構一一對應）
+├── ja/                         日文版（同上）
 ├── services/                   六個業務分項頁
 │   ├── civil.html              廠房基建工程
 │   ├── cleanroom.html          無塵室規劃及建造
@@ -25,7 +26,7 @@ python -m http.server 8000
 │   └── facility.html           廠務系統整合
 ├── assets/
 │   ├── css/style.css           全站樣式（設計語彙：工程圖紙）
-│   ├── css/fonts.css           自託管字型宣告（TC＋Latin）；fonts-sc.css 簡體（切換時載入）；fonts-en.css 英文版 Noto Sans
+│   ├── css/fonts.css           自託管字型宣告（TC＋Latin，中文頁）；fonts-latin.css（Saira＋Plex Mono，英日頁）；fonts-sc.css 簡體（切換時載入）；fonts-en.css Noto Sans；fonts-ja.css Noto Sans JP
 │   ├── fonts/                  woff2 字型分塊（Noto Sans TC/SC 可變字重、Saira、IBM Plex Mono）
 │   ├── js/main.js              導覽、動效、標高導覽軌、表單
 │   ├── js/lang.js              繁簡一鍵切換（繁體為內容源）

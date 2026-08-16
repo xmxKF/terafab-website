@@ -23,6 +23,7 @@
   --font-body: "Noto Sans TC", "PingFang TC", "Microsoft JhengHei UI", "Microsoft JhengHei", "Noto Sans CJK TC", sans-serif;
   --font-body-sc: "Noto Sans SC", "PingFang SC", "Microsoft YaHei UI", "Microsoft YaHei", "Noto Sans CJK SC", sans-serif;
   --font-body-en: "Noto Sans", "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+  --font-body-ja: "Noto Sans JP", "Hiragino Sans", "Yu Gothic UI", "Meiryo", "Noto Sans CJK JP", sans-serif;
   --font-num: "Saira", "Noto Sans TC", sans-serif;
   --font-mono: "IBM Plex Mono", "Courier New", monospace;
   --w: 1120px;
@@ -47,6 +48,20 @@ html[lang="zh-Hans"] body { font-family: var(--font-body-sc); }
 html[lang="zh-Hans"] .field input,
 html[lang="zh-Hans"] .field select,
 html[lang="zh-Hans"] .field textarea { font-family: var(--font-body-sc); }
+
+/* 日文版：Noto Sans JP 內文；標題維持黑體 900（與中文版同構），字距略收 */
+html[lang="ja"] body { font-family: var(--font-body-ja); line-height: 1.8; }
+html[lang="ja"] .field input, html[lang="ja"] .field select, html[lang="ja"] .field textarea { font-family: var(--font-body-ja); }
+html[lang="ja"] .hero h1 { font-size: clamp(32px, 5.4vw, 56px); letter-spacing: 0; }
+html[lang="ja"] .btn, html[lang="ja"] .nav-cta { letter-spacing: .06em; }
+html[lang="ja"] .nav-links > li > a, html[lang="ja"] .nav-links > li > button { font-size: 14px; white-space: nowrap; padding: 0 11px; }
+html[lang="ja"] .nav-links { gap: 2px; }
+html[lang="ja"] .brand-sub { white-space: nowrap; }
+@media (max-width: 1400px) { html[lang="ja"] .brand-sub { display: none; } }
+html[lang="en"] .nav-links > li > a, html[lang="en"] .nav-links > li > button { white-space: nowrap; }
+html[lang="en"] .brand-sub { white-space: nowrap; }
+@media (max-width: 1240px) { html[lang="en"] .brand-sub { display: none; } }
+.lang-switch > [lang="ja"] { font-family: var(--font-mono); }
 
 /* 英文版：Noto Sans 內文（非 CJK 字型的 Latin 字形）、Saira 標題、較緊字距與較小行高 */
 html[lang="en"] body { font-family: var(--font-body-en); line-height: 1.6; }
@@ -694,25 +709,9 @@ button { font-family: inherit; cursor: pointer; }
 
 /* ---------- 頁尾標題欄 ---------- */
 .footer { border-top: 2px solid var(--ink); background: var(--paper); }
-.tblock {
-  display: grid; grid-template-columns: 2fr 1.4fr 1fr 1fr 1fr;
-  border-left: 1px solid var(--line); border-right: 1px solid var(--line);
-}
-@media (max-width: 880px) { .tblock { grid-template-columns: 1fr 1fr; } }
-.tcell { padding: 12px 16px; border-right: 1px solid var(--line); border-bottom: 1px solid var(--line); }
-.tblock .tcell:last-child { border-right: 0; }
-@media (max-width: 880px) {
-  .tcell { border-right: 0; }
-  .tcell:nth-child(odd) { border-right: 1px solid var(--line); }
-}
-.tcell .k {
-  font-family: var(--font-mono); font-size: 10px; letter-spacing: .16em; color: var(--steel);
-  display: block; margin-bottom: 2px;
-}
-.tcell .v { font-size: 14px; font-weight: 500; }
 .footer-main {
   display: flex; justify-content: space-between; gap: 32px; flex-wrap: wrap;
-  padding: 36px 0 28px;
+  padding: 44px 0 28px;
 }
 .footer-brand p { font-size: 13px; color: var(--steel); margin-top: 6px; max-width: 360px; }
 .footer-nav { display: flex; gap: 56px; flex-wrap: wrap; }
