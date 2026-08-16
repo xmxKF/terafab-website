@@ -27,7 +27,7 @@ python -m http.server 8000
 │   ├── js/main.js              導覽、動效、標高導覽軌、表單
 │   ├── js/lang.js              繁簡一鍵切換（繁體為內容源）
 │   ├── js/zh-map.js            繁→簡對照表（自動生成，勿手改）
-│   └── img/                    fab.jpg（全廠剖視圖）、logo.png（裁切字標）
+│   └── img/                    fab.png（全廠剖視圖）、logo.png（裁切字標）
 ├── tools/gen-zh-map.mjs        重新生成繁簡對照表
 ├── 網站設計規格書.md            設計規格（頁面、視覺系統、技術規格）
 ├── 圖片生成提示詞.md            各頁圖片素材之生成提示詞（依資產編號）
