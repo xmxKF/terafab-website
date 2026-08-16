@@ -144,6 +144,15 @@
     });
   }
 
+  /* ---------- 背景／嵌入影片：減少動態或省流量模式時不自動播放 ---------- */
+  var saveData = navigator.connection && navigator.connection.saveData;
+  if (reduceMotion || saveData) {
+    Array.prototype.forEach.call(document.querySelectorAll("video[autoplay]"), function (v) {
+      v.removeAttribute("autoplay"); v.pause();
+      try { v.currentTime = 0; } catch (e) {}
+    });
+  }
+
   /* ---------- 年份 ---------- */
   var yr = document.querySelector("[data-year]");
   if (yr) yr.textContent = String(new Date().getFullYear());

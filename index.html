@@ -73,10 +73,11 @@
 
   <!-- ============ HERO ============ -->
   <section class="hero" data-level="RF">
-    <!-- 可選影片背景 VID-HOME-01：生成後置於 assets/video/VID-HOME-01.mp4，
-         以 <video class="hero-bg-video" autoplay muted loop playsinline> 插入於本註解下方、
-         .hero-grid-bg 之前，並於 CSS 加上 position:absolute; inset:0; object-fit:cover; opacity:.14 -->
     <div class="hero-photo" aria-hidden="true"></div>
+    <video class="hero-video" autoplay muted loop playsinline preload="metadata"
+           poster="assets/img/VID-HOME-1-poster.webp" aria-hidden="true" tabindex="-1">
+      <source src="assets/video/VID-HOME-1.mp4" type="video/mp4">
+    </video>
     <div class="hero-grid-bg" aria-hidden="true"></div>
     <div class="hero-in">
       <p class="hero-meta rv on">
@@ -291,9 +292,8 @@
           </div>
         </a>
         <a class="svc-card rv" href="services/oht.html">
-          <figure class="ph ph-32">
-            <span class="ph-tag">待生成素材</span>
-            <div class="ph-in"><span class="ph-id">IMG-HOME-06</span><p class="ph-cap">OHT 天車載著 FOUP 行駛於琥珀色軌道</p></div>
+          <figure class="fig fig-32">
+            <img src="assets/img/IMG-HOME-06.webp" alt="OHT 天車載著 FOUP 於無塵室天花板軌道行駛" width="1200" height="800" loading="lazy">
           </figure>
           <div class="svc-card-body">
             <div class="svc-card-top">
@@ -306,9 +306,8 @@
           </div>
         </a>
         <a class="svc-card rv rv-d1" href="services/water.html">
-          <figure class="ph ph-32">
-            <span class="ph-tag">待生成素材</span>
-            <div class="ph-in"><span class="ph-id">IMG-HOME-07</span><p class="ph-cap">廠區廢水處理設施與 RO 回收系統</p></div>
+          <figure class="fig fig-32">
+            <img src="assets/img/IMG-HOME-07.webp" alt="半導體廠區廢水處理設施：圓形沉澱池與藍色管廊" width="1200" height="800" loading="lazy">
           </figure>
           <div class="svc-card-body">
             <div class="svc-card-top">
@@ -411,6 +410,9 @@
               <span class="v">ivan@terafabsystem.com</span>
             </div>
           </div>
+          <figure class="fig contact-fig rv rv-d1">
+            <img src="assets/img/IMG-CONTACT-1.webp" alt="現代工程公司總部入口：玻璃帷幕與白色板材" width="1086" height="1448" loading="lazy">
+          </figure>
         </div>
         <form class="form rv rv-d1" data-mailto="ivan@terafabsystem.com">
           <div class="form-row">
