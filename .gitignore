@@ -13,3 +13,5 @@ node_modules/
 *.log
 Thumbs.db
 .DS_Store
+# 客戶交付之原始素材 PNG（網站使用 assets/img/*.webp）
+/IMG-*.png
