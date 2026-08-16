@@ -83,24 +83,32 @@
     }
     root.lang = toHans ? "zh-Hans" : "zh-Hant-TW";
 
-    var btns = document.querySelectorAll("[data-lang-toggle]");
-    Array.prototype.forEach.call(btns, function (b) {
-      b.textContent = toHans ? "繁" : "简";
-      b.setAttribute("aria-label", toHans ? "切换繁体中文" : "切換簡體中文");
+    Array.prototype.forEach.call(document.querySelectorAll(".lang-switch [data-lang]"), function (b) {
+      var cur = b.getAttribute("data-lang") === (toHans ? "hans" : "hant");
+      b.classList.toggle("is-current", cur);
+      if (cur) b.setAttribute("aria-current", "true"); else b.removeAttribute("aria-current");
     });
 
     try { localStorage.setItem("tf-lang", lang); } catch (e) { /* 私密模式 */ }
   }
 
   document.addEventListener("click", function (e) {
-    var b = e.target.closest ? e.target.closest("[data-lang-toggle]") : null;
+    var b = e.target.closest ? e.target.closest(".lang-switch [data-lang]") : null;
     if (!b) return;
-    apply(document.documentElement.lang === "zh-Hans" ? "hant" : "hans");
+    apply(b.getAttribute("data-lang") === "hans" ? "hans" : "hant");
   });
 
   window.TF_CONV = conv;
 
+  /* 英文頁的「简」連結：先記下偏好再前往中文頁 */
+  document.addEventListener("click", function (e) {
+    var a = e.target.closest ? e.target.closest("[data-set-lang]") : null;
+    if (!a) return;
+    try { localStorage.setItem("tf-lang", a.getAttribute("data-set-lang")); } catch (err) { /* 私密模式 */ }
+  });
+
   var saved = "hant";
   try { saved = localStorage.getItem("tf-lang") || "hant"; } catch (e) { /* 私密模式 */ }
-  if (saved === "hans") apply("hans");
+  var isZh = /^zh/i.test(document.documentElement.lang || "");
+  if (isZh && saved === "hans") apply("hans");
 })();

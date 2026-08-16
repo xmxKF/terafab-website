@@ -15,6 +15,7 @@ python -m http.server 8000
 
 ```
 ├── index.html                  首頁（剖視圖熱點、業務範圍、服務流程、聯絡）
+├── en/                         英文版（index.html ＋ services/ 六頁，與中文結構一一對應）
 ├── services/                   六個業務分項頁
 │   ├── civil.html              廠房基建工程
 │   ├── cleanroom.html          無塵室規劃及建造
@@ -24,7 +25,7 @@ python -m http.server 8000
 │   └── facility.html           廠務系統整合
 ├── assets/
 │   ├── css/style.css           全站樣式（設計語彙：工程圖紙）
-│   ├── css/fonts.css           自託管字型宣告（TC＋Latin）；fonts-sc.css 簡體字型（切換時載入）
+│   ├── css/fonts.css           自託管字型宣告（TC＋Latin）；fonts-sc.css 簡體（切換時載入）；fonts-en.css 英文版 Noto Sans
 │   ├── fonts/                  woff2 字型分塊（Noto Sans TC/SC 可變字重、Saira、IBM Plex Mono）
 │   ├── js/main.js              導覽、動效、標高導覽軌、表單
 │   ├── js/lang.js              繁簡一鍵切換（繁體為內容源）
@@ -33,7 +34,8 @@ python -m http.server 8000
 ├── tools/gen-zh-map.mjs        重新生成繁簡對照表
 ├── 網站設計規格書.md            設計規格（頁面、視覺系統、技術規格）
 ├── 圖片生成提示詞.md            各頁圖片素材之生成提示詞（依資產編號）
-└── 影片生成提示詞.md            各頁影片素材之生成提示詞（依資產編號）
+├── 影片生成提示詞.md            各頁影片素材之生成提示詞（依資產編號）
+└── 待生成素材提示詞.md          目前仍缺的素材清單與提示詞（廠務分項）
 ```
 
 ## 置入生成素材

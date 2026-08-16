@@ -22,6 +22,7 @@
   --zone-str: #D2D6DA;  /* 結構 */
   --font-body: "Noto Sans TC", "PingFang TC", "Microsoft JhengHei UI", "Microsoft JhengHei", "Noto Sans CJK TC", sans-serif;
   --font-body-sc: "Noto Sans SC", "PingFang SC", "Microsoft YaHei UI", "Microsoft YaHei", "Noto Sans CJK SC", sans-serif;
+  --font-body-en: "Noto Sans", "Segoe UI", "Helvetica Neue", Arial, sans-serif;
   --font-num: "Saira", "Noto Sans TC", sans-serif;
   --font-mono: "IBM Plex Mono", "Courier New", monospace;
   --w: 1120px;
@@ -46,6 +47,23 @@ html[lang="zh-Hans"] body { font-family: var(--font-body-sc); }
 html[lang="zh-Hans"] .field input,
 html[lang="zh-Hans"] .field select,
 html[lang="zh-Hans"] .field textarea { font-family: var(--font-body-sc); }
+
+/* 英文版：Noto Sans 內文（非 CJK 字型的 Latin 字形）、Saira 標題、較緊字距與較小行高 */
+html[lang="en"] body { font-family: var(--font-body-en); line-height: 1.6; }
+html[lang="en"] .field input, html[lang="en"] .field select, html[lang="en"] .field textarea { font-family: var(--font-body-en); }
+html[lang="en"] .hero h1, html[lang="en"] .sec-title, html[lang="en"] .page-head h1, html[lang="en"] .cta-band h2 {
+  font-family: var(--font-num); font-weight: 700; letter-spacing: -.01em;
+}
+html[lang="en"] .hero h1 { font-size: clamp(32px, 4.6vw, 52px); line-height: 1.08; }
+html[lang="en"] .hero-desc { font-size: 15px; }
+/* 切換鈕中的 繁／简 字形一律用 CJK 字型（英文頁的 Noto Sans 無 CJK 字形） */
+.lang-switch > [lang="zh-Hant"] { font-family: var(--font-mono), var(--font-body); }
+.lang-switch > [lang="zh-Hans"] { font-family: var(--font-mono), var(--font-body-sc); }
+html[lang="en"] .sec-title { line-height: 1.2; }
+html[lang="en"] .btn, html[lang="en"] .nav-cta { letter-spacing: .03em; }
+html[lang="en"] .nav-links > li > a, html[lang="en"] .nav-links > li > button { font-size: 14.5px; }
+html[lang="en"] .svc-card h3, html[lang="en"] .scope-item h3, html[lang="en"] .how-step h3, html[lang="en"] .flow-step h3 { letter-spacing: 0; }
+html[lang="en"] .brand-sub { letter-spacing: .08em; }
 
 img { max-width: 100%; height: auto; display: block; }
 a { color: inherit; text-decoration: none; }
@@ -85,6 +103,7 @@ button { font-family: inherit; cursor: pointer; }
   background: var(--paper);
   border-bottom: 1px solid var(--line-soft);
   transition: box-shadow .25s ease;
+  will-change: transform; /* 獨立合成層：hover 重繪限於此層，避免全螢幕 1:1 光柵路徑丟失小面積更新 */
 }
 .nav.scrolled { box-shadow: 0 1px 0 var(--line), 0 8px 24px rgba(28, 39, 51, .06); }
 .nav-in {
@@ -116,9 +135,18 @@ button { font-family: inherit; cursor: pointer; }
 .nav-links > li { position: relative; }
 .nav-links > li > a, .nav-links > li > button {
   display: inline-flex; align-items: center; height: 40px; padding: 0 14px; font-size: 15px; color: var(--ink);
-  background: none; border: 0; line-height: 1;
+  background: none; border: 0; line-height: 1; position: relative;
+}
+/* hover：琥珀底線（盒級重繪，且與全站琥珀線語彙一致）＋文字變色 */
+.nav-links > li > a::after, .nav-links > li > .nav-sub-btn::after {
+  content: ""; position: absolute; left: 14px; right: 14px; bottom: 6px; height: 2px;
+  background: var(--oht); transform: scaleX(0); transform-origin: left; transition: transform .2s ease;
 }
 .nav-links > li > a:hover, .nav-links > li > button:hover { color: var(--oht-deep); }
+.nav-links > li > a:hover::after, .nav-links > li > .nav-sub-btn:hover::after,
+.nav-links > li:focus-within > .nav-sub-btn::after { transform: scaleX(1); }
+.nav-links > li > .nav-cta::after, .nav-links > li > .lang-btn::after { display: none; }
+@media (max-width: 880px) { .nav-links > li > a::after, .nav-links > li > .nav-sub-btn::after { display: none; } }
 .nav-cta {
   margin-left: 10px; border: 1px solid var(--ink); padding: 0 18px !important; height: 36px !important;
   font-size: 14px !important; letter-spacing: .08em;
@@ -126,15 +154,19 @@ button { font-family: inherit; cursor: pointer; }
 }
 .nav-cta:hover { background: var(--ink); color: var(--paper) !important; }
 
-.nav-links > li > .lang-btn {
-  font-family: var(--font-mono); font-size: 13px; letter-spacing: .04em;
-  border: 1px solid var(--line); background: none; color: var(--steel);
-  padding: 0 12px; height: 34px; margin-left: 6px; width: auto;
-  transition: border-color .2s, color .2s;
+.lang-switch { display: inline-flex; align-items: stretch; margin-left: 6px; border: 1px solid var(--line); height: 34px; }
+.lang-switch > a, .lang-switch > button {
+  font-family: var(--font-mono); font-size: 12.5px; letter-spacing: .04em; line-height: 1;
+  background: none; border: 0; border-right: 1px solid var(--line); color: var(--steel);
+  padding: 0 11px; display: inline-flex; align-items: center; cursor: pointer;
+  transition: color .2s, background .2s;
 }
-.nav-links > li > .lang-btn:hover { border-color: var(--oht-deep); color: var(--oht-deep); }
+.lang-switch > :last-child { border-right: 0; }
+.lang-switch > a:hover, .lang-switch > button:hover { color: var(--oht-deep); }
+.lang-switch > .is-current { color: var(--ink); background: var(--card); font-weight: 500; cursor: default; }
 @media (max-width: 880px) {
-  .nav-links > li > .lang-btn { margin: 14px 0 0; padding: 10px 20px; font-size: 15px; text-align: center; }
+  .nav-links > li > .lang-switch { margin: 14px 0 0; height: 44px; width: 100%; }
+  .lang-switch > a, .lang-switch > button { flex: 1; justify-content: center; font-size: 15px; }
 }
 
 /* 下拉 */
