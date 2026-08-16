@@ -15,3 +15,6 @@ Thumbs.db
 .DS_Store
 # 客戶交付之原始素材 PNG（網站使用 assets/img/*.webp）
 /IMG-*.png
+
+# 原始 favicon 來源檔（網站使用 favicon.ico 與 assets/icons/）
+/Favicon.png
