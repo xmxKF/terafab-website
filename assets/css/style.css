@@ -253,12 +253,71 @@ button { font-family: inherit; cursor: pointer; }
 .hero-top { display: grid; grid-template-columns: 1.05fr .95fr; gap: 48px; align-items: center; }
 @media (max-width: 1000px) { .hero-top { grid-template-columns: 1fr; gap: 36px; } }
 .hero-copy { min-width: 0; }
-.hero-media { box-shadow: 0 24px 60px rgba(28, 39, 51, .14); }
-.hero-media::before {
+.hero-media .page-video { box-shadow: 0 24px 60px rgba(28, 39, 51, .14); }
+.hero-media .page-video::after {
   content: "VIDEO · FAB-1 SITE"; position: absolute; left: 12px; top: 12px; z-index: 2;
   font-family: var(--font-mono); font-size: 10.5px; letter-spacing: .14em; color: #fff;
   background: rgba(19,28,38,.78); padding: 4px 9px; border-left: 3px solid var(--oht);
 }
+
+/* ---------- 視圖框（crop marks，圖紙細部視圖） ---------- */
+.viewport {
+  position: relative; padding: 10px;
+  --cm: var(--ink);
+  background:
+    linear-gradient(var(--cm), var(--cm)) 0 0 / 16px 1px no-repeat,
+    linear-gradient(var(--cm), var(--cm)) 0 0 / 1px 16px no-repeat,
+    linear-gradient(var(--cm), var(--cm)) 100% 0 / 16px 1px no-repeat,
+    linear-gradient(var(--cm), var(--cm)) 100% 0 / 1px 16px no-repeat,
+    linear-gradient(var(--cm), var(--cm)) 0 100% / 16px 1px no-repeat,
+    linear-gradient(var(--cm), var(--cm)) 0 100% / 1px 16px no-repeat,
+    linear-gradient(var(--cm), var(--cm)) 100% 100% / 16px 1px no-repeat,
+    linear-gradient(var(--cm), var(--cm)) 100% 100% / 1px 16px no-repeat;
+}
+
+/* ---------- 現場影像帶（圖紙細部視圖 + 標題欄 + 註記） ---------- */
+.sheet-band {
+  position: relative; padding: 88px 0 96px; overflow: hidden;
+  border-top: 1px solid var(--line-soft); border-bottom: 1px solid var(--line-soft);
+  background: var(--paper);
+}
+.sheet-grid {
+  position: absolute; inset: 0; pointer-events: none;
+  background-image:
+    linear-gradient(var(--line-soft) 1px, transparent 1px),
+    linear-gradient(90deg, var(--line-soft) 1px, transparent 1px);
+  background-size: 64px 64px;
+  mask-image: radial-gradient(ellipse at 30% 50%, #000 40%, transparent 85%);
+  -webkit-mask-image: radial-gradient(ellipse at 30% 50%, #000 40%, transparent 85%);
+}
+.sheet { position: relative; display: grid; grid-template-columns: 1.6fr 1fr; gap: 48px; align-items: center; }
+@media (max-width: 960px) { .sheet { grid-template-columns: 1fr; gap: 32px; } }
+.sheet-view { position: relative; }
+.sheet-view .page-video { border-color: var(--ink); }
+.sheet-tb {
+  display: grid; grid-template-columns: 1.6fr .8fr 1.3fr 1.35fr;
+  margin: 0 10px; border: 1px solid var(--ink); border-top: 0; background: var(--card);
+}
+@media (max-width: 560px) { .sheet-tb { grid-template-columns: 1fr 1fr; } .sheet-tb .cell:nth-child(-n+2) { border-bottom: 1px solid var(--line); } }
+.sheet-tb .cell { padding: 8px 12px 9px; border-right: 1px solid var(--line); min-width: 0; }
+.sheet-tb .cell:last-child { border-right: 0; }
+@media (max-width: 560px) { .sheet-tb .cell:nth-child(2n) { border-right: 0; } }
+.sheet-tb .k { display: block; font-family: var(--font-mono); font-size: 9.5px; letter-spacing: .16em; color: var(--steel); margin-bottom: 1px; }
+.sheet-tb .v { display: flex; align-items: center; gap: 6px; font-size: 13px; font-weight: 500; color: var(--ink); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.sheet-tb .tc { font-family: var(--font-mono); font-size: 12px; letter-spacing: .04em; overflow: visible; }
+.tc-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--line); flex: none; }
+.sheet.is-playing .tc-dot { background: var(--oht); animation: tcpulse 1.2s ease-in-out infinite; }
+@keyframes tcpulse { 0%, 100% { opacity: 1; } 50% { opacity: .35; } }
+.sheet-notes { padding-top: 4px; }
+.sheet-notes h3 { font-size: clamp(19px, 2vw, 22px); font-weight: 700; line-height: 1.45; margin: 12px 0 16px; }
+.notes li { display: grid; grid-template-columns: 18px 1fr; gap: 12px; padding: 12px 0; border-top: 1px solid var(--line-soft); }
+.notes li:last-child { border-bottom: 1px solid var(--line-soft); }
+.notes .dot {
+  width: 10px; height: 10px; border-radius: 50%; background: var(--oht); margin-top: 6px;
+  border: 2px solid #fff; box-shadow: 0 0 0 1px var(--oht-deep);
+}
+.notes b { display: block; font-size: 14.5px; font-weight: 700; }
+.notes p { font-size: 13px; color: var(--steel); margin-top: 1px; }
 .hero-meta {
   font-family: var(--font-mono); font-size: 12px; color: var(--steel);
   letter-spacing: .14em; display: flex; gap: 18px; flex-wrap: wrap;
@@ -756,6 +815,7 @@ button { font-family: inherit; cursor: pointer; }
 
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
+  .sheet.is-playing .tc-dot { animation: none; }
   .rv { opacity: 1; transform: none; transition: none; }
   .hs .dot::after { animation: none; }
   .oht-line .track { stroke-dashoffset: 0; animation: none; }

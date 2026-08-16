@@ -166,6 +166,19 @@
     });
     window.setTimeout(sync, 800);
   });
+  /* 現場影像帶：時間碼與播放狀態 */
+  Array.prototype.forEach.call(document.querySelectorAll(".sheet"), function (sheet) {
+    var v = sheet.querySelector("video"), tc = sheet.querySelector("[data-tc]"); if (!v || !tc) return;
+    var fmt = function (t) { t = Math.max(0, Math.floor(t || 0)); return (t < 600 ? "0" : "") + Math.floor(t / 60) + ":" + ("0" + (t % 60)).slice(-2); };
+    var upd = function () {
+      var d = isFinite(v.duration) ? v.duration : 0;
+      tc.textContent = fmt(v.currentTime) + " / " + fmt(d);
+      sheet.classList.toggle("is-playing", !v.paused && !v.ended);
+    };
+    ["timeupdate", "loadedmetadata", "play", "pause", "ended"].forEach(function (ev) { v.addEventListener(ev, upd); });
+    upd();
+  });
+
   /* 首頁剖視圖：播放 BIM 剖視動畫（VID-FAB-1），播畢回到互動熱點圖 */
   var dgm = document.querySelector(".diagram");
   var dv = dgm && dgm.querySelector(".diagram-video");
