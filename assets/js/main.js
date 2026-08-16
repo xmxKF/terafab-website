@@ -152,6 +152,29 @@
       try { v.currentTime = 0; } catch (e) {}
     });
   }
+  /* Hero 背景影片：部分行動瀏覽器（Huawei 瀏覽器「僅 Wi-Fi 自動播放」、Edge 封鎖自動播放）
+     會擋下靜音自動播放；背景層無播放鈕，改在使用者第一次觸碰／點擊頁面時啟動 */
+  var heroVideo = document.querySelector(".hero-video");
+  if (heroVideo && !reduceMotion && !saveData) {
+    var kickHero = function () {
+      if (heroVideo.paused) {
+        var pr = heroVideo.play();
+        if (pr && pr.catch) pr.catch(function () {});
+      }
+    };
+    var armed = false;
+    var arm = function () {
+      if (armed) return; armed = true;
+      ["touchstart", "pointerdown", "click", "keydown", "scroll"].forEach(function (ev) {
+        window.addEventListener(ev, kickHero, { once: true, passive: true });
+      });
+    };
+    var pr0 = heroVideo.play();
+    if (pr0 && pr0.catch) pr0.catch(arm); else arm();
+    heroVideo.addEventListener("canplay", kickHero, { once: true });
+    document.addEventListener("visibilitychange", function () { if (!document.hidden) kickHero(); });
+  }
+
   /* 嵌入影片：未播放時顯示播放鈕（autoplay 被瀏覽器阻擋、省電模式等），點擊切換播放 */
   Array.prototype.forEach.call(document.querySelectorAll(".page-video"), function (fig) {
     var v = fig.querySelector("video"); if (!v) return;
