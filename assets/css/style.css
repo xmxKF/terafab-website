@@ -97,6 +97,16 @@ button { font-family: inherit; cursor: pointer; }
 .brand-mark .tf-accent { color: var(--oht-deep); }
 .brand-logo { height: 40px; width: auto; mix-blend-mode: multiply; display: block; }
 .brand-logo-lg { height: 52px; }
+/* 字標左側裁切標記：圖檔左緣切過資料流，以視圖框角標把「裁切」變成「視圖」（同影片視圖框語彙） */
+.brand-mark-wrap { position: relative; display: block; padding: 5px 0 5px 7px; }
+.brand-mark-wrap::before, .brand-mark-wrap::after {
+  content: ""; position: absolute; left: 0; width: 9px; height: 9px;
+  border-color: var(--ink); border-style: solid;
+}
+.brand-mark-wrap::before { top: 0; border-width: 1px 0 0 1px; }
+.brand-mark-wrap::after  { bottom: 0; border-width: 0 0 1px 1px; }
+.footer-brand .brand-mark-wrap { padding: 6px 0 6px 8px; }
+.footer-brand .brand-mark-wrap::before, .footer-brand .brand-mark-wrap::after { width: 11px; height: 11px; }
 .brand-sub { font-size: 11px; color: var(--steel); letter-spacing: .14em; }
 @media (max-width: 560px) { .brand-sub { display: none; } }
 
