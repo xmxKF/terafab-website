@@ -173,10 +173,14 @@ button { font-family: inherit; cursor: pointer; }
 @media (max-width: 880px) {
   .nav-toggle { display: block; }
   .nav-links {
-    position: fixed; top: var(--nav-h); left: 0; right: 0; bottom: 0;
+    /* 錨定於 .nav 本身（absolute），不用 fixed：.nav 的 backdrop-filter 會讓 fixed 子元素改以 .nav 為包含塊，
+       導致 bottom:0 貼齊導覽列底部而高度歸零（Chromium 系行動瀏覽器實際發生） */
+    position: absolute; top: 100%; left: 0; right: 0;
+    height: calc(100vh - var(--nav-h));
+    height: calc(100dvh - var(--nav-h));
     background: var(--paper); border-top: 1px solid var(--line);
-    flex-direction: column; align-items: stretch; gap: 0; padding: 12px 24px;
-    overflow-y: auto;
+    flex-direction: column; align-items: stretch; gap: 0; padding: 12px 24px 40px;
+    overflow-y: auto; -webkit-overflow-scrolling: touch; overscroll-behavior: contain;
     display: none;
   }
   .nav-links.open { display: flex; }
@@ -191,7 +195,10 @@ button { font-family: inherit; cursor: pointer; }
   }
   .nav-links li.open-sub > .dropdown-menu { display: block; }
   .dropdown-menu a { padding-left: 20px; background: none; }
-  .nav-cta { margin: 16px 0 0; text-align: center; border-width: 1px; }
+  .nav-links > li > .nav-cta {
+    margin: 18px 0 0; text-align: center; border: 1px solid var(--ink);
+    padding: 12px 18px !important; font-size: 15px !important; border-bottom: 1px solid var(--ink);
+  }
 }
 
 /* ---------- 眉標／標題 ---------- */
