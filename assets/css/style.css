@@ -79,8 +79,10 @@ button { font-family: inherit; cursor: pointer; }
 .nav {
   position: fixed; top: 0; left: 0; right: 0; z-index: 200;
   height: var(--nav-h);
-  background: rgba(246, 247, 248, 0.92);
-  backdrop-filter: blur(8px);
+  /* 不透明底色、不用 backdrop-filter：backdrop-filter 會使導覽列成為每幀回讀底層的 render surface，
+     在 Edge/Chromium F11 全螢幕的 DirectComposition 部分呈現路徑下會丟失小面積更新（hover 凍結／閃爍），
+     且會令 fixed 子元素改以 .nav 為包含塊（行動選單曾因此高度歸零）。--paper 與原半透明結果同色，視覺無差。 */
+  background: var(--paper);
   border-bottom: 1px solid var(--line-soft);
   transition: box-shadow .25s ease;
 }
@@ -183,8 +185,7 @@ button { font-family: inherit; cursor: pointer; }
 @media (max-width: 880px) {
   .nav-toggle { display: block; }
   .nav-links {
-    /* 錨定於 .nav 本身（absolute），不用 fixed：.nav 的 backdrop-filter 會讓 fixed 子元素改以 .nav 為包含塊，
-       導致 bottom:0 貼齊導覽列底部而高度歸零（Chromium 系行動瀏覽器實際發生） */
+    /* 錨定於 .nav 本身（absolute）並明確給高度，不依賴 fixed 定位語意（任何引擎行為一致） */
     position: absolute; top: 100%; left: 0; right: 0;
     height: calc(100vh - var(--nav-h));
     height: calc(100dvh - var(--nav-h));
