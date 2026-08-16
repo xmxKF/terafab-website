@@ -286,9 +286,12 @@ button { font-family: inherit; cursor: pointer; }
 
 .hero-fig { position: relative; margin-top: 4px; }
 .hero-fig img { width: 100%; height: auto; aspect-ratio: 1731 / 909; object-fit: contain; }
+.cap-mobile { display: none; }
+@media (max-width: 767px) { .cap-desktop { display: none; } .cap-mobile { display: inline; } }
 .hero-fig figcaption {
   font-family: var(--font-mono); font-size: 12px; color: var(--steel);
-  padding: 10px 2px; display: flex; justify-content: space-between; gap: 12px; flex-wrap: wrap;
+  padding: 10px 14px; display: flex; justify-content: space-between; gap: 12px; flex-wrap: wrap;
+  border: 1px solid var(--line); border-top: 0; background: var(--paper);
 }
 
 /* ---------- 區塊通用 ---------- */
@@ -349,11 +352,60 @@ button { font-family: inherit; cursor: pointer; }
 .level-list { margin-top: 0; border: 1px solid var(--line); border-top: 0; }
 @media (min-width: 768px) { .level-list { display: none; } }
 .level-list a {
-  display: flex; align-items: center; gap: 12px; padding: 13px 16px;
+  display: flex; align-items: center; gap: 12px; padding: 13px 16px 13px 18px;
   border-bottom: 1px solid var(--line-soft); font-size: 14.5px; background: #fff;
+  position: relative;
+}
+.level-list a::before {
+  content: ""; position: absolute; left: 0; top: 0; bottom: 0; width: 5px;
+  background: var(--tile-color, var(--line));
 }
 .level-list a:last-child { border-bottom: 0; }
 .level-list .elev { min-width: 96px; }
+
+/* 系統索引列：取代舊色塊圖例（新圖無分區色），改為可點擊入口，色鍵與熱點及卡片一致 */
+.sys-index {
+  display: grid; grid-template-columns: repeat(6, 1fr);
+  border: 1px solid var(--line); border-top: 0; background: var(--card);
+}
+@media (max-width: 1000px) { .sys-index { grid-template-columns: repeat(3, 1fr); } }
+@media (max-width: 767px)  { .sys-index { display: none; } }
+.sys-tile {
+  position: relative; display: flex; flex-direction: column; gap: 2px;
+  padding: 14px 14px 12px 18px; border-right: 1px solid var(--line-soft);
+  transition: background .2s;
+}
+.sys-tile:last-child { border-right: 0; }
+@media (max-width: 1000px) {
+  .sys-tile:nth-child(3n) { border-right: 0; }
+  .sys-tile:nth-child(-n+3) { border-bottom: 1px solid var(--line-soft); }
+}
+.sys-tile::before {
+  content: ""; position: absolute; left: 0; top: 0; bottom: 0; width: 5px;
+  background: var(--tile-color, var(--line));
+}
+.sys-tile:hover { background: var(--paper); }
+.sys-tile:hover .sys-name { color: var(--oht-deep); }
+.sys-code { font-family: var(--font-mono); font-size: 10.5px; letter-spacing: .14em; color: var(--steel); }
+.sys-name { font-size: 14px; font-weight: 700; color: var(--ink); line-height: 1.35; transition: color .2s; }
+.sys-elev { font-family: var(--font-mono); font-size: 10.5px; color: var(--steel); letter-spacing: .04em; white-space: nowrap; }
+.t-str { --tile-color: #B7BEC6; }
+.t-cr  { --tile-color: var(--zone-cr); }
+.t-mep { --tile-color: var(--zone-mep); }
+.t-oht { --tile-color: var(--oht); }
+.t-env { --tile-color: var(--zone-env); }
+.t-aux { --tile-color: var(--zone-aux); }
+
+/* 熱點色鍵：與索引列及卡片同色 */
+.hs .tag { border-left: 3px solid var(--tag-color, var(--oht)); }
+.hs-str { --tag-color: #B7BEC6; }
+.hs-cr  { --tag-color: #D9C170; }
+.hs-mep { --tag-color: #8FB3D1; }
+.hs-oht { --tag-color: var(--oht); }
+.hs-env { --tag-color: #9DBB8D; }
+.hs-aux { --tag-color: #A9AEC4; }
+.hs .dot { background: var(--tag-color, var(--oht)); box-shadow: 0 0 0 1px rgba(28,39,51,.45); }
+.hs .dot::after { border-color: var(--tag-color, var(--oht)); }
 
 .diagram-note {
   font-family: var(--font-mono); font-size: 12px; color: var(--steel);
