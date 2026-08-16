@@ -1,0 +1,15 @@
+# 非網站檔案：規格、提示詞、客戶資料、原始素材、工具、工作設定
+網站設計規格書.md
+圖片生成提示詞.md
+影片生成提示詞.md
+客户需求.md
+/网站logo.png
+/fab.jpg
+CLAUDE.md
+DESIGN.md
+tools/
+.claude/
+node_modules/
+*.log
+Thumbs.db
+.DS_Store
