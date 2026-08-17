@@ -1,0 +1,15 @@
+# Cloudflare Workers 靜態資產排除清單（gitignore 語法）——只上傳網站檔案
+.git
+.github
+.gitignore
+.assetsignore
+wrangler.jsonc
+wrangler.toml
+node_modules
+.wrangler
+tools
+*.md
+*.mjs
+*.py
+package.json
+package-lock.json
