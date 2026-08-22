@@ -29,8 +29,11 @@
   function eachTextNode(cb) {
     var tw = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT, {
       acceptNode: function (n) {
-        var p = n.parentNode && n.parentNode.nodeName;
-        if (p === "SCRIPT" || p === "STYLE") return NodeFilter.FILTER_REJECT;
+        var el = n.parentNode;
+        var name = el && el.nodeName;
+        if (name === "SCRIPT" || name === "STYLE") return NodeFilter.FILTER_REJECT;
+        /* translate="no"：品牌名等固定字樣（如 顯藝科技）不做繁簡轉換 */
+        if (el && el.closest && el.closest('[translate="no"]')) return NodeFilter.FILTER_REJECT;
         return HAN_RE.test(n.nodeValue) ? NodeFilter.FILTER_ACCEPT : NodeFilter.FILTER_SKIP;
       }
     });
@@ -61,6 +64,7 @@
 
     var els = document.querySelectorAll("[alt],[aria-label],[placeholder],[title]");
     Array.prototype.forEach.call(els, function (el) {
+      if (el.closest && el.closest('[translate="no"]')) return;
       ATTRS.forEach(function (a) {
         var v = el.getAttribute(a);
         if (v === null || !HAN_RE.test(v)) return;
